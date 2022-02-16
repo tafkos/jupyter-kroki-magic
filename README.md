@@ -14,7 +14,7 @@ Load extension inside a Jupyter notebook:
 Add code with Cell magic:
 
 ```
-%%kroki [diagram-type]
+%%kroki [diagram-type] [http://alternate.kroki.url:port]
 
 # diagram syntax
 ```
