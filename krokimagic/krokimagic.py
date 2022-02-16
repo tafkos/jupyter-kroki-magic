@@ -11,7 +11,7 @@ class KrokiMagic(Magics):
                               'umlet', 'wavedrom', 'bpmn', 'bytefield', 'pikchr',
                               'graphviz', 'vega', 'vega-lite', 'ditaa', 'svgbob'])
 
-
+@cell_magic
     def kroki(self, line, cell):
         "simple wrapper for kroki.io"
 
