@@ -6,27 +6,28 @@ from IPython.display import SVG, display
 
 @magics_class
 class KrokiMagic(Magics):
-    diagrams_supported = set(['blockdiag', 'seqdiag', 'mermaid', 'actdiag', 'nwdiag',
-                              'packetdiag', 'rackdiag', 'erd', 'nomnoml', 'plantuml',
-                              'umlet', 'wavedrom', 'bpmn', 'bytefield', 'pikchr',
-                              'graphviz', 'vega', 'vega-lite', 'ditaa', 'svgbob'])
+    diagrams_supported = set([
+        'actdiag', 'blockdiag', 'bpmn', 'bytefield', 'c4plantuml', 'ditaa',
+        'erd', 'excalidraw', 'graphviz', 'mermaid', 'nomnoml', 'nwdiag',
+        'packetdiag', 'pikchr', 'plantuml', 'rackdiag', 'seqdiag',
+        'structurizr', 'svgbob', 'umlet', 'vega', 'vegalite', 'wavedrom'
+    ])
 
-@cell_magic
+    @cell_magic
     def kroki(self, line, cell):
-        "simple wrapper for kroki.io"
+        "simple wrapper for https://kroki.io"
 
-        splt_line = line.split(sep=' ')
-
-        if splt_line[0] not in self.diagrams_supported:
+        if line.split(sep=' ')[0] not in self.diagrams_supported:
             raise NotImplemented
 
-        url = 'https://kroki.io'
-        if len(splt_line) > 1:
-            url = splt_line[1]
+        if len(line.split(sep=' ')) <= 1:
+            url = 'https://kroki.io'
+        else:
+            url = line.split(sep=' ')[1]
 
-        r = requests.post(f'{url}/{splt_line[0]}/svg', json={'diagram_source': cell})
+        r = requests.post(f'{url}/{line.split(sep=" ")[0]}/svg',
+                          json={'diagram_source': cell})
         if r.status_code == 200:
             return display(SVG(r.text))
         else:
             raise ValueError
-            
